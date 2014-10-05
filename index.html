@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Brasil</title>
+	<link rel="stylesheet" href="/static/bootstrap.min.css">
+	<link rel="stylesheet" href="/static/helper.css">
+</head>
+<body>
+	<div class="container">
+		<div class="row">
+			<div class="col-md-offset-3 col-md-6 col-xs-12">
+				<h1>Brasil</h1>
+				<p class="lead">Exemplo de consulta a receita federal</p>
+			</div>
+		</div>
+
+		<div class="row">
+			<div class="col-md-offset-3 col-md-6 col-xs-12">
+			    <div class="input-group">
+			      	<input id="cnpj" type="text" class="form-control" placeholder="CNPJ">
+			      	<span class="input-group-btn">
+			        	<button id="resolverCaptcha" class="btn btn-default" type="button">CONSULTAR</button>
+			    	</span>
+			    </div>
+			</div>
+		</div>
+
+		<div class="row" style="margin-top: 10px;">
+			<div class="col-md-offset-3 col-md-6 col-xs-12">
+				<pre id="resultado"></pre>
+				<p class="text-center">
+					<b>Gammasoft Desenvolvimento de Software Ltda</b><br />
+					<a href="mailto:contato@gammasoft.com.br">contato@gammasoft.com.br</a>
+				</p>
+			</div>
+		</div>
+	</div>
+
+	<div class="modal fade" id="captchaModal" tabindex="-1" role="dialog" aria-labelledby="captchaModalLabel" aria-hidden="true">
+	    <div class="modal-dialog modal-sm">
+	        <div class="modal-content">
+	            <div class="modal-header">
+	                <button type="button" class="close" data-dismiss="modal">
+	                    <span aria-hidden="true">&times;</span>
+	                    <span class="sr-only">Fechar</span>
+	                </button>
+
+	                <h4 class="modal-title" id="captchaModalLabel">Solucione o captcha...</h4>
+	            </div>
+
+	            <div class="modal-body">
+	                <center>
+	                	<img src="" alt="" id="captcha">
+	                	<br />
+	                	<br />
+	                	<input maxlength="6" type="text" id="solucaoDoCaptcha">
+	                </center>
+	            </div>
+
+	            <div class="modal-footer">
+	                <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+	                <button id="enviarConsulta" type="button" class="btn btn-primary">Enviar</button>
+	            </div>
+	        </div>
+	    </div>
+	</div>
+
+	<script type="text/javascript" src="/static/jquery.min.js"></script>
+	<script type="text/javascript" src="/static/bootstrap.min.js"></script>
+	<script type="text/javascript" src="/static/maskedinput.min.js"></script>
+	<script type="text/javascript" src="/static/helper.js"></script>
+	<script type="text/javascript">
+	$(function() {
+		$('#cnpj').mask('99.999.999/9999-99');
+
+		$('#resolverCaptcha').on('click', function() {
+			$('#resultado').html('');
+			$('#solucaoDoCaptcha').val('')
+
+			var get = $.getJSON('/captcha');
+
+			get.success(function(captcha) {
+				$('#captcha').attr('src', [
+					'data:',
+					captcha.contentType,
+					';base64,',
+					captcha.captchaEmBase64
+				].join(''));
+
+				$('#enviarConsulta').data('captcha', captcha);
+				$('#captchaModal').modal('show');
+			});
+		});
+
+		$('#enviarConsulta').on('click', function() {
+			var get = $.getJSON('/consulta', $.extend({
+					cnpj: $('#cnpj').val(),
+					solucao: $('#solucaoDoCaptcha').val()
+				}, $(this).data('captcha')));
+
+			get.success(function(dados) {
+				$('#resultado').html(pretty(dados));
+				$('#captchaModal').modal('hide');
+			});
+
+			get.fail(function(jqXHR, textStatus, errorThrown) {
+				$('#captchaModal').modal('hide');
+				alert('A solução do captcha estava incorreta ou o CNPJ não existe');
+			});
+		});
+	});
+	</script>
+</body>
+</html>
