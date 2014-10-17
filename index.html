@@ -38,10 +38,41 @@
 				<pre id="resultado" style="display: none;"></pre>
 				<p class="text-center">
 					<b>&gamma; Gammasoft Desenvolvimento de Software Ltda</b><br />
-					<a href="mailto:contato@gammasoft.com.br">contato@gammasoft.com.br</a>
+					<a href="mailto:contato@gammasoft.com.br">contato@gammasoft.com.br</a> - <a id="newsletter" href="#">Notifique-me a cada nova versão</a>
 				</p>
 			</div>
 		</div>
+	</div>
+
+	<div class="modal fade" id="newsletterModal" tabindex="-1" role="dialog" aria-labelledby="newsletterModalLabel" aria-hidden="true">
+	    <div class="modal-dialog">
+	        <div class="modal-content">
+	            <div class="modal-header">
+	                <button type="button" class="close" data-dismiss="modal">
+	                    <span aria-hidden="true">&times;</span>
+	                    <span class="sr-only">Fechar</span>
+	                </button>
+
+	                <h4 class="modal-title" id="newsletterModalLabel">Inscreva-se</h4>
+	            </div>
+
+	            <div class="modal-body">
+	                Seja notificado a cada atualização do módulo Brasil (via MailChimp)
+
+					<!-- Begin MailChimp Signup Form -->
+					<form style="margin-top: 10px;" action="//github.us9.list-manage.com/subscribe/post?u=513e70b6c8253e9c9d281b161&amp;id=8f0a0f188b" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" class="validate" target="_blank" novalidate>
+					    <div id="mc_embed_signup_scroll">
+						<input type="email" value="" name="EMAIL" class="email" id="mce-EMAIL" placeholder="Seu e-mail" required>
+					    <!-- real people should not fill this in and expect good things - do not remove this or risk form bot signups-->
+					    <div style="position: absolute; left: -5000px;"><input type="text" name="b_513e70b6c8253e9c9d281b161_8f0a0f188b" tabindex="-1" value=""></div>
+					    <div class="clear"><input type="submit" value="Enviar" name="subscribe" id="mc-embedded-subscribe" style="margin-top: 10px;" class="btn btn-default"></div>
+					    </div>
+					</form>
+
+					<!--End mc_embed_signup-->
+	            </div>
+	        </div>
+	    </div>
 	</div>
 
 	<div class="modal fade" id="captchaModal" tabindex="-1" role="dialog" aria-labelledby="captchaModalLabel" aria-hidden="true">
@@ -80,6 +111,10 @@
 	<script type="text/javascript">
 	$(function() {
 		$('#cnpj').mask('99.999.999/9999-99');
+
+		$('a#newsletter').bind('click', function() {
+			$('#newsletterModal').modal('show');
+		});
 
 		$('#resolverCaptcha').on('click', function() {
 			$('#resultado').hide();
