@@ -5,7 +5,7 @@
   "main": "app.js",
   "dependencies": {
     "body-parser": "1.9.0",
-    "brasil": "0.0.25",
+    "brasil-consultas": "^1.0.0",
     "express": "4.9.5"
   },
   "repository": {

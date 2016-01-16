@@ -1,36 +1,43 @@
-var brasil = require('brasil'),
-	bodyParser = require('body-parser'),
-	express = require('express');
-
-var app = express();
+var consultas = require('brasil-consultas'),
+    bodyParser = require('body-parser'),
+    express = require('express'),
+    path = require('path'),
+    app = express();
 
 app.use(bodyParser.json());
-app.use('/static', express.static(__dirname + '/static'));
+app.use('/static', express.static(path.join(__dirname, '/static')));
 
 app.get('/', function(req, res, next) {
-	res.sendFile(__dirname + '/index.html');
+    res.sendFile(path.join(__dirname, '/index.html'));
+});
+
+app.get('/codigo-fonte', function(req, res, next) {
+    res.sendFile(path.join(__dirname, 'app.js'));
 });
 
 app.get('/captcha', function(req, res, next) {
-	brasil.consultas.cnpj.obterCaptcha(function(err, captcha) {
-		if(err) {
-			return next(err);
-		}
+    consultas.cnpj.obterCaptcha(function(err, captcha) {
+        if(err) {
+            return next(err);
+        }
 
-		res.json(captcha);
-	});
+        res.json(captcha);
+    });
 });
 
 app.get('/consulta', function(req, res, next) {
-	brasil.consultas.cnpj.obterDados(req.query.cnpj, req.query, function(err, dados) {
-		if(err) {
-			return next(err);
-		}
+    var cnpj = req.query.cnpj,
+        captcha = req.query;
 
-		res.json(dados);
-	})
+    consultas.cnpj.obterDados(cnpj, captcha, function(err, dados) {
+        if(err) {
+            return next(err);
+        }
+
+        res.json(dados);
+    });
 });
 
 app.listen(9000, function() {
-	console.log('Brasil - Escutando na porta 9000');
+    console.log('Brasil - Escutando na porta 9000');
 });
