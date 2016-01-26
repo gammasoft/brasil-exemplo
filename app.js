@@ -8,7 +8,7 @@ app.use(bodyParser.json());
 app.use('/static', express.static(path.join(__dirname, '/static')));
 
 app.get('/', function(req, res, next) {
-    res.sendFile(path.join(__dirname, '/index.html'));
+    res.sendFile(path.join(__dirname, 'index.html'));
 });
 
 app.get('/codigo-fonte', function(req, res, next) {

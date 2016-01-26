@@ -1,6 +1,6 @@
 {
   "name": "brasil-exemplo",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "description": "Exemplo de utilização do módulo brasil para consultar a receita federal",
   "main": "app.js",
   "dependencies": {
@@ -23,14 +23,5 @@
     "exemplo"
   ],
   "author": "Gammasoft Desenvolvimento de Software Ltda <contato@gammasoft.com.br>",
-  "license": "MIT",
-  "contributors": [
-    {
-      "name": "Renato Gama",
-      "email": "renatoargh@gmail.com",
-      "url": "https://github.com/renatoargh",
-      "contributions": 1,
-      "hireable": false
-    }
-  ]
+  "license": "MIT"
 }
